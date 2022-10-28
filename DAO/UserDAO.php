@@ -12,6 +12,7 @@
         private $userList = array();
         private $userTypeDAO;
         private $connection;
+        public $ex;
 
         public function __construct(){
             $this->userTypeDAO = new UserTypeDAO();
