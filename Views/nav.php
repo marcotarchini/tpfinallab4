@@ -44,7 +44,7 @@
                     <a class="nav-link" href="<?php echo FRONT_ROOT . "User/ShowLogin"?>">Login</a>
                </li>
                <li class="nav-item">
-                    <a class="nav-link" href="<?php= FRONT_ROOT ?>User/ShowRegister">Register</a>
+                    <a class="nav-link" href="<?php echo FRONT_ROOT . "User/ShowRegister"?>">Register</a>
                </li>
 
           <?php } ?>

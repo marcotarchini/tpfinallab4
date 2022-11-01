@@ -12,14 +12,13 @@
         private $userList = array();
         private $userTypeDAO;
         private $connection;
-        public $ex;
+    
 
         public function __construct(){
             $this->userTypeDAO = new UserTypeDAO();
         }
 
-        public function GenerateId()
-        {
+        public function GenerateId(){
             $registers = count($this->userList);
             if($registers > 0){
                 return $this->userList[$registers - 1]->getId() + 1;
@@ -27,8 +26,7 @@
             return 1;
         }
 
-        public function Add(User $user)
-        {
+        /*public function Add(User $user){
             try
             {
                 $query = "INSERT INTO ".$this->tableUser." (id, username, password, usertype) VALUES (:id, :username, :password, :usertype);";
@@ -44,7 +42,7 @@
                 
                 $this->connection = Connection::GetInstance();
 
-                $this->connection->ExecuteNonQuery($query, $parameters);
+                $this->connection->ExecuteNonQuery($query, $parameters, true);
 
                 return true;
             }
@@ -52,9 +50,9 @@
             {
                 throw $ex;
             }
-        }
+        }*/
 
-        /*public function Add(User $user)
+        public function Add(User $user)
         {
             $this->RetrieveData();
             
@@ -67,10 +65,9 @@
 
             $this->SaveData();
             return true;
-        }*/
+        }
 
-        public function GetAll()
-        {
+        /*public function GetAll(){
             try
             {
                 
@@ -98,16 +95,16 @@
             {
                 throw $ex;
             }
-        }
+        }*/
 
-        /*public function GetAll()
+        public function GetAll()
         {
             $this->RetrieveData();
 
             return $this->userList;
-        }*/
+        }
 
-        public function GetByUsername($username){
+        /*public function GetByUsername($username){
             $sql = "SELECT * FROM user where  $username * :username";
 
             $parameters["username"] = $username;
@@ -116,16 +113,17 @@
                 $this->connection = Connection::getInstance();
                 $resultSet = $this->connection->execute($sql, $parameters);
             } catch(Exception $ex){
-                twrow $ex;
+                throw $ex;
             }
 
-            if(!empty($resultSet))
+            if(!empty($resultSet)){
                 return $this->mapear($resultSet);
-            else
+            }else{
                 return false;
-        }
+            }
+        }*/
 
-        /*public function GetByUsername($username){
+        public function GetByUsername($username){
             $this->RetrieveData();
             foreach ($this->userList as $item) {
                 if($item->getUsername() == $username){
@@ -133,9 +131,9 @@
                 }
             }
             return null;
-        }*/
+        }
 
-        public function GetByType($type){
+        /*public function GetByType($type){
             $sql = "SELECT * FROM user where  $type * :type";
 
             $parameters["type"] = $type;
@@ -143,17 +141,17 @@
             try {
                 $this->connection = Connection::getInstance();
                 $resultSet = $this->connection->execute($sql, $parameters);
-            } catch(Exception $ex){
-                twrow $ex;
+            } catch(Exception $ex ){
+                throw $ex;
             }
 
             if(!empty($resultSet))
                 return $this->mapear($resultSet);
             else
                 return false;
-        }
+        }*/
 
-        /*public function GetByType($type)
+        public function GetByType($type)
         {
             $this->RetrieveData();
 
@@ -166,9 +164,9 @@
             }
 
             return $data;
-        }*/
+        }
 
-        public function Search($id){
+        /*public function Search($id){
             $sql = "SELECT * FROM user where  $id * :id";
 
             $parameters["id"] = $id;
@@ -177,19 +175,16 @@
                 $this->connection = Connection::getInstance();
                 $resultSet = $this->connection->execute($sql, $parameters);
             } catch(Exception $ex){
-                twrow $ex;
+                throw $ex;
             }
 
             if(!empty($resultSet))
                 return $this->mapear($resultSet);
             else
                 return false;
-        }
+        }*/
 
-
-
-        }
-        /*public function Search($id){
+        public function Search($id){
             $this->RetrieveData();
 
             foreach ($this->userList as $item) {
@@ -198,10 +193,12 @@
                 }
             }
             return null;
-        }*/
+        }
 
         public function Login($username, $password){
-            $user = $this->($username);
+
+            $user = $this->GetByUsername($username);
+
             if($user != null && $user->getPassword() == $password){
                 return $user;
             }
@@ -217,7 +214,7 @@
                 $valuesArray["id"] = $user->getId();
                 $valuesArray["username"] = $user->getUsername();
                 $valuesArray["password"] = $user->getPassword();
-                $valuesArray["userTypeId"] = $user->getUserType()->getId();
+                $valuesArray["userTypeId"] = $user->getUsertype()->getId();
 
                 array_push($arrayToEncode, $valuesArray);
             }
@@ -250,14 +247,14 @@
             }
         }
 
-        protected function mapear($value){
+        /*protected function mapear($value){
 
             $value = is_array($value) ? $value : [];
 
             $resp = array_map(function($p)){
-                return new M_User($p["id"],$p["username"],$p["password"],$p["usertype"]}, $value);
+                return new M_User($p["id"], $p["username"], $p["password"], $p["usertype"]}, $value);
 
             return count($resp) > 1 ? $resp : $resp["0"];
-        }
+        }*/
     }
 ?>
